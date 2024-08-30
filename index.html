@@ -39,8 +39,6 @@
       const tiles = L.tileLayer(tileUrl, { attribution });
       tiles.addTo(mymap);
 
-      // const marker = L.marker([37.7749, -122.4194]).addTo(mymap);
-
       // Get all rentals
       const api_url = "https://data.sfgov.org/resource/aaxw-2cb8.json?housing_tenure=Rental"
 
@@ -54,13 +52,18 @@
             .filter(item => item.location !== undefined)
 
         
+
         for (let housingProject of housingWithLocation) {
-             marker = L.marker([housingProject.latitude, housingProject.longitude]).addTo(mymap);
+          infoString = "<b>Project Name:</b> " + (housingProject.project_name) + "<br><b>MOHCD Affordable Units:</b> " + (housingProject.mohcd_affordable_units)
+          marker = L.marker([housingProject.latitude, housingProject.longitude]).bindTooltip(infoString)
+            
+          marker.addTo(mymap);
         }
 
       }
 
       getAffordableHousing();
+
     </script>
   </body>
 </html>
