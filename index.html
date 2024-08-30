@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=\, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css"
+      integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
+      crossorigin=""
+    />
+    <script
+      src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"
+      integrity="sha512-QVftwZFqvtRNi0ZyCtsznlKSWOStnDORoefr1enyq5mVL4tmKB3S/EnC3rRJcxCPavG10IcrVGSmPh6Qw5lwrg=="
+      crossorigin=""
+    ></script>
+    <style>
+      #sfMap {
+        height: 720px;
+        /* max-width: 100%; */
+      }
+    </style>
+
+    <title>Affordable housing SF</title>
+  </head>
+  <body>
+    <h1>Affordable housing SF</h1>
+
+    <div id="sfMap"></div>
+
+    <script>
+      // Making a map and tiles
+      const mymap = L.map('sfMap').setView([37.7749, -122.4194], 13);
+      const attribution =
+        '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
+
+      const tileUrl = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+      const tiles = L.tileLayer(tileUrl, { attribution });
+      tiles.addTo(mymap);
+
+      // const marker = L.marker([37.7749, -122.4194]).addTo(mymap);
+
+      // Get all rentals
+      const api_url = "https://data.sfgov.org/resource/aaxw-2cb8.json?housing_tenure=Rental"
+
+     
+      async function getAffordableHousing() {
+        const response = await fetch(api_url);
+        const data = await response.json();
+        
+        // ignoring undefined locations for now
+        let housingWithLocation = data
+            .filter(item => item.location !== undefined)
+
+        
+        for (let housingProject of housingWithLocation) {
+             marker = L.marker([housingProject.latitude, housingProject.longitude]).addTo(mymap);
+        }
+
+      }
+
+      getAffordableHousing();
+    </script>
+  </body>
+</html>
