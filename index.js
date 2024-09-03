@@ -1,4 +1,4 @@
-// Making a map and tiles
+// Making a map and tiles centered at  SF's latitude and longitude
 const mymap = L.map('sfMap').setView([37.7749, -122.4194], 13);
 const attribution =
   '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
@@ -12,6 +12,12 @@ let markers = new L.LayerGroup().addTo(mymap);
 
 // Get all rentals
 const api_url = "https://data.sfgov.org/resource/aaxw-2cb8.json?housing_tenure=Rental"
+
+let overlayMaps = {
+    "Affordable Housing Projects": markers
+};
+
+var layerControl = L.control.layers(null, overlayMaps).addTo(mymap);
 
 function getAvgAffordability(ami, mohcd_units) {
 
@@ -59,6 +65,7 @@ async function getAffordableHousing(zipCode) {
         marker.addTo(markers);
     }
 }
+
 
 getAffordableHousing();
 
