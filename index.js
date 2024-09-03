@@ -29,7 +29,13 @@ function formvalidate(e) {
     getAffordableHousing(zipCode)
 }
 
+function resetMap(e) {
+    e.preventDefault()
+    getAffordableHousing()
+}
+
 async function getAffordableHousing(zipCode) {
+    // remove existing makers to redraw fitered map
     markers.clearLayers();
     // move fetch call outside function? -   
     const response = await fetch(api_url);
@@ -38,7 +44,6 @@ async function getAffordableHousing(zipCode) {
     // ignoring undefined locations for now
     let housingWithLocation = data
         .filter(item => item.location !== undefined)
-        // .filter(item => item.zip_code == "94117")
 
     // enable filtering by zipCode
     if (zipCode != undefined) {
@@ -58,8 +63,10 @@ async function getAffordableHousing(zipCode) {
 getAffordableHousing();
 
 
+// Adding Listeners
 let zipForm = document.getElementById("zipForm");
 zipForm.addEventListener("submit",formvalidate,false);
+zipForm.addEventListener("reset", resetMap,false);
 
 
 
