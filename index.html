@@ -16,6 +16,10 @@
       crossorigin=""
     ></script>
     <style>
+      body {
+        margin: 0;
+        font-family: Arial, Helvetica, sans-serif;
+      }
       #sfMap {
         height: 720px;
         /* max-width: 100%; */
@@ -26,6 +30,12 @@
   </head>
   <body>
     <h1>Affordable housing SF</h1>
+
+  
+    <form id="zipForm">
+      <input type="text" placeholder="Zip Code" name="zip-code">
+      <button type="submit">Submit</button>
+    </form>
 
     <div id="sfMap"></div>
 
